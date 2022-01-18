@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "jelliary",
+    "slug": "jelliary",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "jelliary"
+}
