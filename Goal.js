@@ -1,8 +1,21 @@
-import React from "react";
-import { Pressable, TextInput} from "react-native";
+import React, {useState, useEffect} from "react";
+import { Pressable, TextInput } from "react-native";
 import styled from "styled-components/native";
 
-const Goal = ({ title, todos }) => {
+
+
+const NewTodoInput = styled.TextInput`
+  width: 200px;
+  height: 25px;
+
+  margin-top: 20px;
+  background-color: #efefef;
+  border-radius: 5px;
+  padding-left: 10px;
+`;
+{/* <Goal title={"✔️🔥🗒"}/> */}
+
+const Goal = ({title}) => {
   const GoalContainer = styled.View`
     background-color: #efefef;
     border-radius: 8px;
@@ -61,36 +74,21 @@ const Goal = ({ title, todos }) => {
   `;
 
 
-  const NewTodo = styled.TextInput`
-    width: 100px;
-    height: 20px;
-    border: 1px solid black;
-    
-  `
+  // 등록된 일정들
+  const [todos, setTodos] = useState([])
 
-  //Function
-  //   ()=>{
+  //타이핑중인 아직 추가되지는 않은 일정
+  const [newTodo, setNewTodo] = useState("")
 
-  //   }
+  useEffect(()=>{
+    console.log("new todo: ", newTodo)
+  },[newTodo])
 
-  // const a = "my "
-  // const b = "name"
-
-  // a+b // my name
-
-  // "aa"
-  // 'aa'
-  // `aa`
-  // `${}`
 
   return (
     <>
-      {/* <Pressable onPress={함수}> */}
       <Pressable
-        onPress={() => {
-          //   console.log(title + " Pressed");
-          console.log(`${title} Pressed`);
-        }}
+        
       >
         <GoalContainer>
           <GoalCategory>{title}</GoalCategory>
@@ -103,9 +101,11 @@ const Goal = ({ title, todos }) => {
         //javascript code
         //배열크기만큼 반복하는 코드 (todos에 해야할일이 3개가 있으면 3번반복, 2개 있으면 2번 반복)
         todos.map((todo) => (
-          <Pressable onPress={()=>{
-              console.log(`${todo} is completed`)
-          }}>
+          <Pressable
+            onPress={() => {
+              console.log(`${todo} is completed`);
+            }}
+          >
             <TodoContainer>
               <CompletedBox />
               <ScheduleName>{todo}</ScheduleName>
@@ -113,7 +113,28 @@ const Goal = ({ title, todos }) => {
           </Pressable>
         ))
       }
-      <NewTodo/>
+      {/* TEXT_INPUT을 써볼거에오 */}
+      <NewTodoInput
+        onChangeText={(text)=>{
+          setNewTodo(text)
+        }}
+        onSubmitEditing={()=>{
+          //새ㅔ로운 일정 추가
+          setTodos((prev) => [...prev, newTodo]);
+          //빈칸으로 초기화
+          setNewTodo("")
+
+          // console.log(newTodo)
+        }}
+        placeholder="어떤 일을 하실건가요?"
+        value={newTodo}
+        // keyboardType="number-pad"
+        returnKeyType="done"
+
+      />
+
+      {/* <TextInput 
+      /> */}
     </>
   );
 };
